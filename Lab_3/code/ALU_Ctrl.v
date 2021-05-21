@@ -52,7 +52,7 @@ always @(*) begin
                     	ALUCtrl_o <= 4'b0111;
                       jr_i <= 0;
                     end 
-                    6'b001000 : begin
+                    6'b001000 : begin //jr
                     	jr_i <= 1;
                     	ALUCtrl_o <= 4'b0000;
                     end

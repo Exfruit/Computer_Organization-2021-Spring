@@ -50,6 +50,11 @@ always@(posedge Clk) begin
 end
 
 always #(`CYCLE_TIME/2) Clk = ~Clk;	
-  
+
+initial begin
+    $dumpfile("test.vcd");
+    $dumpvars;
+end
+
 endmodule
 

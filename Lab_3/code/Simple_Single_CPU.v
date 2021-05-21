@@ -41,7 +41,6 @@ wire			MemWrite;
 wire			MemToReg;
 wire   			jr;
 wire    		jal;
-wire			is_Rtype;
 
 wire [5-1:0]	to_jal;
 wire [5-1:0]	MUX_Reg;
@@ -58,11 +57,11 @@ wire [32-1:0]	Readdata;
 wire [32-1:0]	Shift_Left_2;
 wire [32-1:0]	Addr_MUX;
 wire [32-1:0]	to_jr;
-wire    		is_jr;
 wire [32-1:0]	MUX_MUX;
 wire [32-1:0]	WriteData_src;
 wire 			and_MUX;
 
+assign and_MUX = zero & Branch;
 //Greate componentes
 ProgramCounter PC(
         .clk_i(clk_i),      
@@ -121,7 +120,6 @@ Decoder Decoder(
 		.MemWrite_o(MemWrite), 
 		.MemtoReg_o(MemToReg),
 
-		.Rtype_o(is_Rtype),
 		.jal_o(jal)
 		);
 
@@ -172,21 +170,12 @@ Shift_Left_Two_32 Shifter(
         .data_o(Shift_Left_2)
         ); 		
 
-MUX_2to1 #(.size(1)) ALUCtrl_MUX(
-	.data0_i(1'b0),
-	.data1_i(jr),
-	.select_i(is_Rtype),
-	.data_o(is_jr)
-	);
-
 MUX_2to1 #(.size(32)) MUX_to_jr(
 	.data0_i(MUX_MUX),
-	.data1_i({PC_addr_4[31:28], rs_addr, rt_addr, rd_addr, shamt, funcode, 2'b00}),
+	.data1_i({PC_addr[31:28], rs_addr, rt_addr, rd_addr, shamt, funcode, 2'b00}),
 	.select_i(Jump),
 	.data_o(to_jr)
 	);
-
-and(and_MUX, zero, Branch);
 
 MUX_2to1 #(.size(32)) MUX_MUX_MUX(
 	.data0_i(PC_addr_4),
@@ -212,7 +201,7 @@ MUX_2to1 #(.size(32)) MUX_WriteData(
 MUX_2to1 #(.size(32)) Mux_PC_Source(
     .data0_i(to_jr),
     .data1_i(RS_data),
-    .select_i(is_jr),
+    .select_i(jr),
     .data_o(next_PC)
     );	
 

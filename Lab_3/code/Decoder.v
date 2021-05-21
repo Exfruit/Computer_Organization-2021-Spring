@@ -22,7 +22,6 @@ module Decoder(
 	MemWrite_o,
 	MemtoReg_o,
 
-	Rtype_o,
 	jal_o
 	);
      
@@ -40,7 +39,6 @@ output		   MemRead_o;
 output  	   MemWrite_o;
 output		   MemtoReg_o;
 
-output 		   Rtype_o;
 output 		   jal_o;
  
 //Internal Signals
@@ -55,7 +53,6 @@ reg    		   MemRead_o;
 reg            MemWrite_o;
 reg 		   MemtoReg_o;
 
-reg 		   Rtype_o;
 reg 		   jal_o;
 //Parameter
 always @(*) begin
@@ -72,7 +69,6 @@ always @(*) begin
 			MemtoReg_o <= 0;
 
 			jal_o <= 0;	
-			Rtype_o <= 1;
 		end
 
 		6'b001000: begin // addi
@@ -87,7 +83,6 @@ always @(*) begin
 			MemtoReg_o <= 0;
 
 			jal_o <= 0;
-			Rtype_o <= 0;
 
 		end	
 
@@ -104,7 +99,6 @@ always @(*) begin
 			MemtoReg_o <= 0;
 
 			jal_o <= 0;
-			Rtype_o <= 0;
 
 		end
 
@@ -121,7 +115,6 @@ always @(*) begin
 			MemtoReg_o <= 0;
 
 			jal_o <= 0;	
-			Rtype_o <= 0;
 
 		end
 
@@ -137,7 +130,6 @@ always @(*) begin
 			MemtoReg_o <= 1;
 
 			jal_o <= 0;
-			Rtype_o <= 0;
 		
 		end
 		
@@ -153,7 +145,6 @@ always @(*) begin
 			MemtoReg_o <= 0;
 
 			jal_o <= 0;
-			Rtype_o <= 0;
 		
 		end
 		
@@ -169,7 +160,6 @@ always @(*) begin
 			MemtoReg_o <= 0;
 
 			jal_o <= 0;
-			Rtype_o <= 0;
 		
 		end
 
@@ -185,7 +175,6 @@ always @(*) begin
 			MemtoReg_o <= 0;
 
 			jal_o <= 1;
-			Rtype_o <= 0;
 			
 		end
 	
