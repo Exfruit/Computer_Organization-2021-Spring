@@ -31,38 +31,50 @@ reg		             jr_i;
 always @(*) begin
 	case(ALUOp_i)
 		3'b000 : begin // R-type
-            case(funct_i)
-                    6'b100000 : begin // add
-                    	ALUCtrl_o <= 4'b0010;
-                      jr_i <= 0;
-                    end  
-                    6'b100010 : begin // sub
-                    	ALUCtrl_o <= 4'b0110;
-                      jr_i <= 0;
-                    end 
-                    6'b100100 : begin // and 
-                    	ALUCtrl_o <= 4'b0000;
-                      jr_i <= 0;
-                    end 
-                    6'b100101 : begin // or
-                    	ALUCtrl_o <= 4'b0001;
-                      jr_i <= 0;
-                    end 
-                    6'b101010 : begin // slt
-                    	ALUCtrl_o <= 4'b0111;
-                      jr_i <= 0;
-                    end 
-                    6'b001000 : begin //jr
-                    	jr_i <= 1;
-                    	ALUCtrl_o <= 4'b0000;
-                    end
-             endcase       
+      case(funct_i)
+        6'b100000 : begin // add
+        	ALUCtrl_o <= 4'b0010;
+          jr_i <= 0;
         end
-        3'b010 : ALUCtrl_o <= 4'b0010; // addi
-        3'b011 : ALUCtrl_o <= 4'b0111; // slti
-        3'b100 : ALUCtrl_o <= 4'b0110; // beq
-        3'b111 : ALUCtrl_o <= 4'b0010; // lw, sw
-        default : jr_i <= 0;
+        6'b100010 : begin // sub
+        	ALUCtrl_o <= 4'b0110;
+          jr_i <= 0;
+        end
+        6'b100100 : begin // and 
+        	ALUCtrl_o <= 4'b0000;
+          jr_i <= 0;
+        end
+        6'b100101 : begin // or
+        	ALUCtrl_o <= 4'b0001;
+          jr_i <= 0;
+        end
+        6'b101010 : begin // slt
+        	ALUCtrl_o <= 4'b0111;
+          jr_i <= 0;
+        end
+        6'b001000 : begin //jr
+        	jr_i <= 1;
+        	ALUCtrl_o <= 4'b0000;
+        end
+      endcase
+    end
+    3'b010 : begin
+      ALUCtrl_o <= 4'b0010; // addi
+      jr_i <= 0;
+    end
+    3'b011 : begin
+      ALUCtrl_o <= 4'b0111; // slti
+      jr_i <= 0;
+    end
+    3'b100 : begin
+      ALUCtrl_o <= 4'b0110; // beq
+      jr_i <= 0;
+    end
+    3'b111 : begin
+      ALUCtrl_o <= 4'b0010; // lw, sw
+      jr_i <= 0;
+    end 
+    default : jr_i <= 0;
   endcase
 end
        
