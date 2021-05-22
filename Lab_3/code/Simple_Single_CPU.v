@@ -172,7 +172,7 @@ Shift_Left_Two_32 Shifter(
 
 MUX_2to1 #(.size(32)) MUX_to_jr(
 	.data0_i(MUX_MUX),
-	.data1_i({PC_addr_4[31:28], rs_addr, rt_addr, rd_addr, shamt, funcode, 2'b00}),
+	.data1_i({PC_addr[31:28], rs_addr, rt_addr, rd_addr, shamt, funcode, 2'b00}),
 	.select_i(Jump),
 	.data_o(to_jr)
 	);
