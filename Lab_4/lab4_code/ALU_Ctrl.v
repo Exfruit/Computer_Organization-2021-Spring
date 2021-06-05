@@ -10,11 +10,11 @@
 //--------------------------------------------------------------------------------
 
 module ALU_Ctrl(
-          funct_i,
-          ALUOp_i,
-          ALUCtrl_o,
-          jr_i
-          );
+    funct_i, 
+    ALUOp_i, 
+    ALUCtrl_o, 
+    jr_i
+);
           
 //I/O ports 
 input      [6-1:0] funct_i;
