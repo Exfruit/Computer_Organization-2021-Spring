@@ -426,7 +426,7 @@ alu_top alu30(
                carry[30],
 );
 
-alu_top alu31(te
+alu_top alu31(
                src1[31],
                src2[31],
                1'b0,
