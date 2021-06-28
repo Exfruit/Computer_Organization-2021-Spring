@@ -27,11 +27,13 @@ void simulate(int cache_size, int block_size, int asso, string& test_file_name){
 
 	int offset_bit = (int) log2(block_size);
 	int index_bit = (int) log2(cache_size/block_size/asso);
-	int line= cache_size>>(offset_bit + (int) log2(asso));
+	int line= cache_size>>(offset_bit + (int)log2(asso));
 	int hit_times = 0, miss_times = 0, instruction_num = 0, LRU_num = 0;
 	vector<int> hit_instruction, miss_instruction;
 
-	// cout << "fuck" << endl;
+	// cout << index_bit << endl << line << endl;
+
+	//2-dimension cache (set * entries)
 	cache_content **cache = new cache_content*[line];
 	for(int i = 0; i < line; i++){
 		cache[i] = new cache_content[asso];
@@ -39,6 +41,8 @@ void simulate(int cache_size, int block_size, int asso, string& test_file_name){
 	// cout<<"cache line:"<<line<<endl;
 
 	// cout << "binary fuck" << endl;
+
+	//initialize valid bit
 	for(int j=0;j<line;j++){
 		for(int i = 0; i < asso; i++){
 			cache[j][i].v=false;
@@ -52,6 +56,8 @@ void simulate(int cache_size, int block_size, int asso, string& test_file_name){
 		index=(x>>offset_bit)&(line-1);
 		tag=x>>(index_bit+offset_bit);
 
+		// cout << "index : " << index << ' ' << "tag = " << tag << '\n';
+
 		bool hit = false;
 		for(int i = 0; i < asso; i++){
 			if(cache[index][i].v && cache[index][i].tag == tag){
@@ -63,17 +69,15 @@ void simulate(int cache_size, int block_size, int asso, string& test_file_name){
 				hit = true;
 				break;
 			}
-			else{					
-
-				cache[index][i].v = true;    //miss
-				cache[index][i].tag = tag;
-			}
 		}
 		bool full = true;
 		if(hit == false){
+			// cout << "fuck" << endl;
 			for(int i = 0; i < asso; i++){
 				if(cache[index][i].v == false){		//find invalid
+					// cout << instruction_num << endl;
 					cache[index][i].v = true;
+					cache[index][i].tag = tag;
 					cache[index][i].LRU = LRU_num;
 					LRU_num++;
 					miss_times++;
@@ -91,6 +95,7 @@ void simulate(int cache_size, int block_size, int asso, string& test_file_name){
 					}
 				}
 				cache[index][LRU_idx].v = true;
+				cache[index][LRU_idx].tag = tag;
 				cache[index][LRU_idx].LRU = LRU_num;
 				LRU_num++;
 				miss_times++;
@@ -102,6 +107,7 @@ void simulate(int cache_size, int block_size, int asso, string& test_file_name){
 
 	cout << "Miss rate : " << 100*((double)miss_times/instruction_num) << "%";
 	cout << endl;
+
 	cout << "Hits instructions : ";
 	for(int i = 0; i < hit_instruction.size(); i++){
 		cout << hit_instruction[i] << " ";
